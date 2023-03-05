@@ -7,16 +7,11 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 import kz.attractor.java.server.BasicServer;
 import kz.attractor.java.server.ContentType;
-import kz.attractor.java.server.Cookie;
 import kz.attractor.java.server.ResponseCodes;
 import kz.attractor.java.utils.Utils;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.*;
 
 public class Lesson47Server extends BasicServer {
@@ -30,7 +25,7 @@ public class Lesson47Server extends BasicServer {
         registerGet("/votes",this::votesGet);
     }
     private void votesGet(HttpExchange exchange){
-        renderTemplate(exchange, "votes.html", new CandidatesDataModel());
+        renderTemplate(exchange, "votes.ftlh", new CandidatesDataModel());
     }
     protected void renderTemplate(HttpExchange exchange, String templateFile, Object dataModel) {
         try {
@@ -90,72 +85,5 @@ public class Lesson47Server extends BasicServer {
     }
     private void candidatesGet(HttpExchange exchange){
         renderTemplate(exchange, "candidates.ftlh", new CandidatesDataModel());
-    }
-//    private void handleDeleteRequest(HttpExchange exchange) {
-//        try{
-//            String queryParams = getQueryParams(exchange);
-//            String params = Utils.parseUrlEncodedBook(queryParams);
-//            params = params.replace("Optional[date=","");
-//            params = params.replace("]","");
-//            params = params.replace("name=","");
-//            List<String> stats = List.of(params.split("&"));
-//            Day day = new Day(LocalDate.parse(stats.get(0)), new ArrayList<>());
-//            for (int i = 0; i < FileService.readDaysFile().size(); i++){
-//                if (FileService.readDaysFile().get(i).getDate().toString().equals(stats.get(0))){
-//                    day = FileService.readDaysFile().get(i);
-//                }
-//            }
-//            for (int i = 0; i < day.getTasks().size(); i++){
-//                if (day.getTasks().get(i).getName().equals(stats.get(1))){
-//                    day.getTasks().remove(i);
-//                }
-//            }
-//            List<Day> days = new ArrayList<>();
-//            for(int i = 0; i < FileService.readDaysFile().size(); i++){
-//                if (FileService.readDaysFile().get(i).getDate().toString().equals(day.getDate().toString())){
-//                    days.add(day);
-//                }
-//                else {
-//                    days.add(FileService.readDaysFile().get(i));
-//                }
-//            }
-//            FileService.writeDaysFile(days);
-//            redirect303(exchange, "/day?date="+day.getDate().getDayOfMonth());
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-//    }
-//    private void handleDayRequest(HttpExchange exchange) {
-//       try{
-//           String queryParams = getQueryParams(exchange);
-//           String params = Utils.parseUrlEncodedBook(queryParams);
-//           params = params.replace("Optional[date=","");
-//           params = params.replace("]","");
-//           int index = Integer.parseInt(params);
-//           Cookie sessionCookie = Cookie.make("date",(LocalDate.of(2022,10,index)).toString());
-//           sessionCookie.setMaxAge(86400);
-//           sessionCookie.setHttpOnly(true);
-//           exchange.getResponseHeaders().add("Set-Cookie", sessionCookie.toString());
-//           Day day = new Day(LocalDate.of(2022,10,index), new ArrayList<>());
-//           for (int i = 0; i < FileService.readDaysFile().size(); i++){
-//               if (FileService.readDaysFile().get(i).getDate().getDayOfMonth() == index){
-//                   day = FileService.readDaysFile().get(i);
-//               }
-//           }
-//           renderTemplate(exchange, "day.html", new SingleDayDataModel(day));
-//       }catch (Exception e){
-//           e.printStackTrace();
-//       }
-//    }
-    protected String getQueryParams(HttpExchange exchange) {
-        String query = exchange.getRequestURI().getQuery();
-        return Objects.nonNull(query) ? query : "";
-    }
-    private void handleQueryRequest(HttpExchange exchange) {
-        String queryParams = getQueryParams(exchange);
-        Map<String, String> params = Utils.parseUrlEncoded(queryParams, "&");
-        Map<String, Object> data = new HashMap<>();
-        data.put("params", params);
-        renderTemplate(exchange, "query.ftl", data);
     }
 }

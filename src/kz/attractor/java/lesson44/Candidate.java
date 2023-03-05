@@ -1,10 +1,5 @@
 package kz.attractor.java.lesson44;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
 public class Candidate {
     private String name;
     private String photo;
