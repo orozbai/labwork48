@@ -27,8 +27,11 @@ public class Lesson47Server extends BasicServer {
         registerGet("/",this::candidatesGet);
         registerPost("/vote",this::candidatesPost);
         registerGet("/thankyou",this::thankyouHandler);
+        registerGet("/votes",this::votesGet);
     }
-
+    private void votesGet(HttpExchange exchange){
+        renderTemplate(exchange, "votes.html", new CandidatesDataModel());
+    }
     protected void renderTemplate(HttpExchange exchange, String templateFile, Object dataModel) {
         try {
             Template temp = freemarker.getTemplate(templateFile);
@@ -73,10 +76,12 @@ public class Lesson47Server extends BasicServer {
                 if (FileService.readCandidatesFile().get(i).getName().equals(stats.get(0))){
                     candidates.get(i).setVotes();
                     FileService.writeCandidatesFile(candidates);
-                    candidates.get(i).setPercentage();
-                    FileService.writeCandidatesFile(candidates);
                     candidate = candidates.get(i);
                 }
+            }
+            for (int i = 0; i < FileService.readCandidatesFile().size(); i++){
+                candidates.get(i).setPercentage();
+                FileService.writeCandidatesFile(candidates);
             }
             redirect303(exchange, "/thankyou");
         }catch (Exception e){

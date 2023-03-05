@@ -23,7 +23,6 @@ public class Candidate {
         double candidatePercentage = (double) this.votes / sum * 100;
         candidatePercentage = (double) Math.round(candidatePercentage * 10) / 10;
         this.percentage = candidatePercentage;
-        System.out.println(candidatePercentage + "%");
     }
 
     public int getVotes() {
