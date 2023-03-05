@@ -15,21 +15,22 @@ public class Candidate {
         return percentage;
     }
 
-    public void setPercentage(int percentage) {
-        this.percentage = percentage;
+    public void setPercentage() {
+        int sum = 0;
+        for (int i = 0; i < FileService.readCandidatesFile().size(); i++){
+            sum+=FileService.readCandidatesFile().get(i).getVotes();
+        }
+        System.out.println(sum);
+        System.out.println(getVotes());
+        this.percentage = Math.round(getVotes()/sum) * 100;
     }
 
     public int getVotes() {
         return votes;
     }
 
-    public void setVotes(int votes) {
-        this.votes = votes;
-        int sum = 0;
-        for (int i = 0; i < FileService.readCandidatesFile().size(); i++){
-            sum+=FileService.readCandidatesFile().get(i).getVotes();
-        }
-        this.percentage = (Math.round(this.votes/sum) * 100);
+    public void setVotes() {
+        this.votes += 1;
     }
 
     public String getName() {

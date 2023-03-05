@@ -21,6 +21,7 @@ import java.util.*;
 
 public class Lesson47Server extends BasicServer {
     private final static Configuration freemarker = initFreeMarker();
+    private static Candidate candidate;
     public Lesson47Server(String host, int port) throws IOException, SQLException {
         super(host, port);
         registerGet("/",this::candidatesGet);
@@ -43,32 +44,7 @@ public class Lesson47Server extends BasicServer {
         }
     }
     private void thankyouHandler(HttpExchange exchange) {
-        System.out.println("ALLLLLLLLLLLLLALALALA");
-        String getCookie = getCookies(exchange);
-        Map<String,String> cookies = Cookie.parse(getCookie);
-        renderTemplate(exchange, "thankyou.html", new SingleDataModel(getCandidate(cookies,exchange)));
-        Cookie logoutCookie = new Cookie<>("name", "");
-        logoutCookie.setMaxAge(1);
-        setCookie(exchange, logoutCookie);
-    }
-    private Candidate getCandidate(Map<String, String> cookies, HttpExchange exchange) {
-        Candidate candidate = new Candidate("","");
-        if (!cookies.isEmpty() && (cookies.get("name") != null)) {
-            for (int i = 0; i < FileService.readCandidatesFile().size(); i++) {
-                if (cookies.get("name").equals(FileService.readCandidatesFile().get(i).getName())) {
-                    candidate = FileService.readCandidatesFile().get(i);
-                    return candidate;
-                }
-            }
-        } else  if (!cookies.isEmpty() && (cookies.get(" name") != null)) {
-            for (int i = 0; i < FileService.readCandidatesFile().size(); i++) {
-                if (cookies.get(" name").equals(FileService.readCandidatesFile().get(i).getName())) {
-                    candidate = FileService.readCandidatesFile().get(i);
-                    return candidate;
-                }
-            }
-        }
-        return candidate;
+        renderTemplate(exchange, "thankyou.html", new SingleDataModel(candidate));
     }
     private static Configuration initFreeMarker() {
         try {
@@ -95,13 +71,11 @@ public class Lesson47Server extends BasicServer {
                 List<Candidate> candidates = FileService.readCandidatesFile();
             for(int i = 0; i < FileService.readCandidatesFile().size(); i++){
                 if (FileService.readCandidatesFile().get(i).getName().equals(stats.get(0))){
-                    candidates.get(i).setVotes(candidates.get(i).getVotes()+1);
-                    Cookie sessionCookie = Cookie.make("name",candidates.get(i).getName());
-                    sessionCookie.setMaxAge(300);
-                    sessionCookie.setHttpOnly(true);
+                    candidates.get(i).setVotes();
+                    FileService.writeCandidatesFile(candidates);
+                    candidate = candidates.get(i);
                 }
             }
-            FileService.writeCandidatesFile(candidates);
             redirect303(exchange, "/thankyou");
         }catch (Exception e){
             e.printStackTrace();
