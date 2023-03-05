@@ -11,6 +11,14 @@ public class Candidate {
     private int votes;
     private int percentage;
 
+    public int getPercentage() {
+        return percentage;
+    }
+
+    public void setPercentage(int percentage) {
+        this.percentage = percentage;
+    }
+
     public int getVotes() {
         return votes;
     }

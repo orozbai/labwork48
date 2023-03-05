@@ -25,7 +25,7 @@ public class Lesson47Server extends BasicServer {
         super(host, port);
         registerGet("/",this::candidatesGet);
         registerPost("/vote",this::candidatesPost);
-        registerPost("/thankyou",this::thanksHandler);
+        registerGet("/thankyou",this::thankyouHandler);
     }
 
     protected void renderTemplate(HttpExchange exchange, String templateFile, Object dataModel) {
@@ -42,10 +42,11 @@ public class Lesson47Server extends BasicServer {
             e.printStackTrace();
         }
     }
-    private void thanksHandler(HttpExchange exchange) {
+    private void thankyouHandler(HttpExchange exchange) {
+        System.out.println("ALLLLLLLLLLLLLALALALA");
         String getCookie = getCookies(exchange);
         Map<String,String> cookies = Cookie.parse(getCookie);
-        renderTemplate(exchange, "thankyou.html", getCandidate(cookies,exchange));
+        renderTemplate(exchange, "thankyou.html", new SingleDataModel(getCandidate(cookies,exchange)));
         Cookie logoutCookie = new Cookie<>("name", "");
         logoutCookie.setMaxAge(1);
         setCookie(exchange, logoutCookie);
