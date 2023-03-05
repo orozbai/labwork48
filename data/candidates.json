@@ -2,37 +2,37 @@
   {
     "name": "Markus Sillman",
     "photo": "1.jpeg",
-    "votes": 3,
-    "percentage": 0
+    "votes": 5,
+    "percentage": 35.7
   },
   {
     "name": "Nikita Culler",
     "photo": "2.jpeg",
-    "votes": 3,
-    "percentage": 0
+    "votes": 7,
+    "percentage": 53.8
   },
   {
     "name": "Tawanna Melanson",
     "photo": "3.jpeg",
-    "votes": 1,
-    "percentage": 0
+    "votes": 2,
+    "percentage": 13.3
   },
   {
     "name": "Brunilda Mikels",
     "photo": "4.jpeg",
-    "votes": 1,
-    "percentage": 0
+    "votes": 2,
+    "percentage": 11.8
   },
   {
     "name": "Hubert Takahashi",
     "photo": "5.jpeg",
-    "votes": 0,
-    "percentage": 0
+    "votes": 2,
+    "percentage": 10.5
   },
   {
     "name": "Hershel Caffrey",
     "photo": "6.jpeg",
-    "votes": 0,
-    "percentage": 0
+    "votes": 1,
+    "percentage": 5.6
   }
 ]

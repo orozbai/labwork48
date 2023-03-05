@@ -73,6 +73,8 @@ public class Lesson47Server extends BasicServer {
                 if (FileService.readCandidatesFile().get(i).getName().equals(stats.get(0))){
                     candidates.get(i).setVotes();
                     FileService.writeCandidatesFile(candidates);
+                    candidates.get(i).setPercentage();
+                    FileService.writeCandidatesFile(candidates);
                     candidate = candidates.get(i);
                 }
             }

@@ -9,20 +9,21 @@ public class Candidate {
     private String name;
     private String photo;
     private int votes;
-    private int percentage;
+    private Double percentage;
 
-    public int getPercentage() {
+    public Double getPercentage() {
         return percentage;
     }
 
     public void setPercentage() {
         int sum = 0;
-        for (int i = 0; i < FileService.readCandidatesFile().size(); i++){
-            sum+=FileService.readCandidatesFile().get(i).getVotes();
+        for (int i = 0; i < FileService.readCandidatesFile().size(); i++) {
+            sum += FileService.readCandidatesFile().get(i).getVotes();
         }
-        System.out.println(sum);
-        System.out.println(getVotes());
-        this.percentage = Math.round(getVotes()/sum) * 100;
+        double candidatePercentage = (double) this.votes / sum * 100;
+        candidatePercentage = (double) Math.round(candidatePercentage * 10) / 10;
+        this.percentage = candidatePercentage;
+        System.out.println(candidatePercentage + "%");
     }
 
     public int getVotes() {
@@ -53,7 +54,7 @@ public class Candidate {
         this.name = name;
         this.photo = photo;
         this.votes = 0;
-        this.percentage = 0;
+        this.percentage = 0.0;
     }
 }
 
